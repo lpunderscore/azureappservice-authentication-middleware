@@ -47,6 +47,12 @@ namespace Middleware.Authentication.AppService
                 //fetch value from endpoint
                 var request = new HttpRequestMessage(HttpMethod.Get, $"{uriString}/.auth/me");
 
+                foreach ( var header in Context.Request.Headers){
+                    if(header.Key.StartsWith("X-ZUMO-")){
+                        request.Headers.Add(header.Key,header.Value[0]);
+                    }
+                }
+
                 JArray payload = null;
 
                 using (HttpClient client = new HttpClient(handler))
